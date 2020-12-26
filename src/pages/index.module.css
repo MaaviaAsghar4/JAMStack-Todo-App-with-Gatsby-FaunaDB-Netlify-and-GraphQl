@@ -1,0 +1,72 @@
+.headerContent {
+  text-align: center;
+  color: #084240;
+}
+
+.addContent {
+  text-align: center;
+}
+
+.addContent input {
+  padding: 10px 10px;
+  border-radius: 0.3rem;
+  border: 2px solid #084240;
+  margin-right: 10px;
+  width: 50vw;
+}
+
+.addContent button {
+  background-color: #084240;
+  color: #e7e7e7;
+  font-weight: bold;
+  padding: 10px 10px;
+  border-radius: 0.3rem;
+  width: 100px;
+  cursor: pointer;
+}
+
+.addContent input,
+.addContent button,
+.crudContent button {
+  outline: none;
+}
+
+.mainContainer {
+  width: 70vw;
+  background-color: #084240;
+  margin: 20px auto;
+  border-radius: 0.3rem;
+  color: #e7e7e7;
+}
+
+.crudContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 10px;
+  margin-bottom: 10px;
+}
+
+.crudContent span {
+  color: #e7e7e7;
+  font-weight: bold;
+}
+
+.update {
+  padding: 10px 10px;
+  background-color: #4285f4;
+  color: #e7e7e7;
+  font-weight: bold;
+  border-radius: 0.3rem;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+.delete {
+  padding: 10px 10px;
+  background-color: #ea4335;
+  color: #e7e7e7;
+  font-weight: bold;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}

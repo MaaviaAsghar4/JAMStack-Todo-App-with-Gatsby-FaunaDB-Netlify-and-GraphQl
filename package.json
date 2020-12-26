@@ -16,8 +16,14 @@
   },
   "license": "0BSD",
   "dependencies": {
-    "gatsby": "^2.26.1",
+    "@apollo/client": "^3.3.6",
+    "@typescript-eslint/eslint-plugin": "^4.11.0",
+    "@typescript-eslint/parser": "^4.11.0",
+    "cross-fetch": "^3.0.6",
+    "gatsby": "^2.29.2",
+    "gatsby-plugin-typescript": "^2.9.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "typescript": "^4.1.3"
   }
 }
