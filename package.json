@@ -19,9 +19,13 @@
     "@apollo/client": "^3.3.6",
     "@typescript-eslint/eslint-plugin": "^4.11.0",
     "@typescript-eslint/parser": "^4.11.0",
+    "apollo-server-lambda": "^2.19.1",
     "cross-fetch": "^3.0.6",
+    "dotenv": "^8.2.0",
+    "faunadb": "^4.0.0",
     "gatsby": "^2.29.2",
     "gatsby-plugin-typescript": "^2.9.0",
+    "graphql": "^15.4.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "typescript": "^4.1.3"
