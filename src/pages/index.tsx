@@ -3,6 +3,13 @@ import styles from "./index.module.css";
 import gql from "graphql-tag";
 import { useQuery, useMutation } from "@apollo/client";
 
+interface arrtype {
+  id: string;
+  isCompleted: boolean;
+  todo: string;
+  __typename: string;
+}
+
 const GET_TODOS = gql`
   {
     todos {
@@ -23,11 +30,12 @@ const ADD_TODO = gql`
 
 const IndexPage = () => {
   let [inputValue, setInputValue] = useState("");
+  let [updatedValue, setUpdatedValue] = useState("");
   const [addTodo] = useMutation(ADD_TODO);
   const addValue = () => {
     addTodo({
       variables: {
-        task: inputValue,
+        todo: inputValue,
       },
       refetchQueries: [{ query: GET_TODOS }],
     });
@@ -44,14 +52,14 @@ const IndexPage = () => {
 
   console.log(data);
 
-  // const addValue = () => {
-  //   console.log("add");
-  // };
-  const editValue = () => {
-    console.log("edit");
+  const updateValue = (id: string) => {
+    console.log(id);
   };
-  const deleteValue = () => {
-    console.log("Delete");
+  const editValue = (id: string) => {
+    console.log(id);
+  };
+  const deleteValue = (id: string) => {
+    console.log(id);
   };
   return (
     <div>
@@ -70,17 +78,44 @@ const IndexPage = () => {
         <button onClick={addValue}>Add</button>
       </div>
       <div className={styles.mainContainer}>
-        <div className={styles.crudContent}>
-          <span>{"value.data"}</span>
-          <div>
-            <button onClick={() => editValue()} className={styles.update}>
-              Update
-            </button>
-            <button onClick={() => deleteValue()} className={styles.delete}>
-              Delete
-            </button>
-          </div>
-        </div>
+        {data.todos.map((todo: arrtype) => {
+          return (
+            <div key={todo.id} className={styles.crudContent}>
+              {todo.isCompleted ? (
+                <input
+                  type="text"
+                  value={updatedValue}
+                  onChange={(e) => setUpdatedValue(e.target.value)}
+                />
+              ) : (
+                <span>{todo.todo}</span>
+              )}
+              <div>
+                {todo.isCompleted ? (
+                  <button
+                    onClick={() => updateValue(todo.id)}
+                    className={styles.update}
+                  >
+                    Update
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => editValue(todo.id)}
+                    className={styles.update}
+                  >
+                    Edit
+                  </button>
+                )}
+                <button
+                  onClick={() => deleteValue(todo.id)}
+                  className={styles.delete}
+                >
+                  Delete
+                </button>
+              </div>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
