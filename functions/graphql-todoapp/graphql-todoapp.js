@@ -10,6 +10,9 @@ const typeDefs = gql`
   }
   type Mutation {
     addTodo(todo: String!): Todo
+    updateTodo(id: ID!, todo: String!): Todo
+    editTodo(id: ID!, todo: String!): Todo
+    deleteTodo(id: ID!): Todo
   }
   type Todo {
     id: ID!
@@ -64,6 +67,73 @@ const resolvers = {
           })
         );
 
+        return {
+          id: result.ref.id,
+          todo: result.ref.data.todo,
+          isCompleted: result.ref.data.isCompleted,
+        };
+      } catch (error) {
+        console.log(error.message);
+      }
+    },
+    updateTodo: async (_, { id, todo }) => {
+      try {
+        const adminClient = new faundadb.Client({
+          secret: process.env.FAUNA_DB_SECRET_KEY,
+        });
+
+        const result = await adminClient.query(
+          q.Update(q.Ref(q.Collection("todo_app"), id), {
+            data: {
+              todo: todo,
+              isCompleted: false,
+            },
+          })
+        );
+
+        return {
+          id: result.ref.id,
+          todo: result.ref.data.todo,
+          isCompleted: result.ref.data.isCompleted,
+        };
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    editTodo: async (_, { id, todo }) => {
+      try {
+        const adminClient = new faundadb.Client({
+          secret: process.env.FAUNA_DB_SECRET_KEY,
+        });
+
+        const result = await adminClient.query(
+          q.Update(q.Ref(q.Collection("todo_app"), id), {
+            data: {
+              todo: todo,
+              isCompleted: true,
+            },
+          })
+        );
+
+        return {
+          id: result.ref.id,
+          todo: result.ref.data.todo,
+          isCompleted: result.ref.data.isCompleted,
+        };
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    deleteTodo: async (_, { id }) => {
+      try {
+        const adminClient = new faundadb.Client({
+          secret: process.env.FAUNA_DB_SECRET_KEY,
+        });
+
+        const result = await adminClient.query(
+          q.Delete(q.Ref(q.Collection("todo_app"), id))
+        );
+        console.log(result);
         return {
           id: result.ref.id,
           todo: result.ref.data.todo,

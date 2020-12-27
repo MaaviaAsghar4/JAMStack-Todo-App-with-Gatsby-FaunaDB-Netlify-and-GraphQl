@@ -28,10 +28,39 @@ const ADD_TODO = gql`
   }
 `;
 
+const DELETE_TODO = gql`
+  mutation deleteTodo($id: ID!) {
+    deleteTodo(id: $id) {
+      id
+    }
+  }
+`;
+
+const EDIT_TODO = gql`
+  mutation editTodo($id: ID!, $todo: String!) {
+    editTodo(id: $id, todo: $todo) {
+      id
+      todo
+    }
+  }
+`;
+
+const UPDATE_TODO = gql`
+  mutation updateTodo($id: ID!, $todo: String!) {
+    updateTodo(id: $id, todo: $todo) {
+      id
+      todo
+    }
+  }
+`;
+
 const IndexPage = () => {
   let [inputValue, setInputValue] = useState("");
   let [updatedValue, setUpdatedValue] = useState("");
   const [addTodo] = useMutation(ADD_TODO);
+  const [editTodo] = useMutation(EDIT_TODO);
+  const [updateTodo] = useMutation(UPDATE_TODO);
+  const [deleteTodo] = useMutation(DELETE_TODO);
   const addValue = () => {
     addTodo({
       variables: {
@@ -40,6 +69,32 @@ const IndexPage = () => {
       refetchQueries: [{ query: GET_TODOS }],
     });
     setInputValue("");
+  };
+  const updateValue = (id: string) => {
+    updateTodo({
+      variables: {
+        id,
+        todo: updatedValue,
+      },
+      refetchQueries: [{ query: GET_TODOS }],
+    });
+  };
+  const editValue = (id: string, todo: string) => {
+    editTodo({
+      variables: {
+        id,
+        todo,
+      },
+      refetchQueries: [{ query: GET_TODOS }],
+    });
+  };
+  const deleteValue = (id: string) => {
+    deleteTodo({
+      variables: {
+        id,
+      },
+      refetchQueries: [{ query: GET_TODOS }],
+    });
   };
   const { loading, error, data } = useQuery(GET_TODOS);
   if (loading) {
@@ -50,17 +105,6 @@ const IndexPage = () => {
     return <h1>{error.message}</h1>;
   }
 
-  console.log(data);
-
-  const updateValue = (id: string) => {
-    console.log(id);
-  };
-  const editValue = (id: string) => {
-    console.log(id);
-  };
-  const deleteValue = (id: string) => {
-    console.log(id);
-  };
   return (
     <div>
       <title>Todo App</title>
@@ -100,7 +144,7 @@ const IndexPage = () => {
                   </button>
                 ) : (
                   <button
-                    onClick={() => editValue(todo.id)}
+                    onClick={() => editValue(todo.id, todo.todo)}
                     className={styles.update}
                   >
                     Edit
